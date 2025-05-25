@@ -1,61 +1,34 @@
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 
-def multiplos_fila(x):
-  multiplos = np.zeros((x,x))
+fx = lambda x: 2*x*np.cos(2*x)-(x+1)**2
+error_rel = lambda vn, va: (np.abs(va - vn)/np.abs(vn))*100
+xr = -2.1913
+a = -3
+b = -2
 
-  if x>=0 and x%1==0:
-    aleatorio = np.random.randint(1,10,x)
-    for i in range(x):
-      fila = (i+1)*aleatorio
-      multiplos[i,:] = fila
+xi = round((a+b)/2,4)
+num_iteraciones = 5
+
+for i in range(num_iteraciones):
+  aviejo = a
+  bviejo = b
+  xi = (a+b)/2
+  fa = fx(a)
+  fb = fx(b)
+  fxi = fx(xi)
+  er = round(error_rel(xr,xi),4) #round limita los decimales?
+
+  if fa*fxi < 0:
+    b = xi
   else:
-    print(x, 'no es un numero entero ni positivo')
-  return multiplos
+    a = xi
+  print('..........................................................')
+  print(f'i = {i+1} | a = {aviejo} | b = {bviejo} | xi = {xi} | er = {er} %')
 
-def multiplos_columna(x):
-  multiplos = np.zeros((x,x))
-
-  if x>=0 and x%1==0:
-    aleatorio = np.random.randint(1,10,x)
-    for i in range(x):
-      columna = (i+1)*aleatorio
-      multiplos[:,i] = columna
-  else:
-    print(x, 'no es un numero entero ni positivo')
-  return multiplos
-
-M = multiplos_fila(6)
-N = multiplos_columna(6)
-print('M = ', M , '\n')
-print('N = ', N , '\n')
-
-#Inciso 6).
-#Intervalo y numero de muetras para x
-x = np.linspace(-2*np.pi, 2*np.pi, 100)
-
-#Funciones
-y1 = x**2        #Polinomio
-y2 = np.sin(x)   #Función trigonométrica
-y3 = np.exp(-x)  #Función exponencial
-
-#Crear la gráfica
-plt.plot(x, y1, 'r--', label='f(x) = x^2')     # Línea roja con línea discontinua
-plt.plot(x, y2, 'g-.', label='f(x) = sin(x)')  # Línea verde con línea punto y guion
-plt.plot(x, y3, 'b:', label='f(x) = exp(-x)')  # Línea azul con línea punteada
-
-#Título y etiquetas
-plt.title('Gráfica de Tres Funciones')
-plt.xlabel('x')
-plt.ylabel('f(x)')
-
-#Mostrar la cuadrícula
-plt.grid(True)
-
-#Agregar la leyenda
-plt.legend()
-
-#Mostrar la gráfica
+x = np.linspace(-5,5,100)
+plt.plot(x,fx(x))
+plt.plot(xi,fx(xi),'ro') #son las coordenadas.
+plt.grid()
 plt.show()
+
